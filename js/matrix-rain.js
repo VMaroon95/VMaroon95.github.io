@@ -3,7 +3,7 @@ class MatrixRain {
   constructor(canvas) {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
-    this.chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    this.chars = '01';
     this.fontSize = 14;
     this.columns = 0;
     this.drops = [];
@@ -35,19 +35,23 @@ class MatrixRain {
       this.ctx.fillText(char, x, y);
       this.ctx.globalAlpha = 1;
 
-      if (y > this.canvas.height && Math.random() > 0.975) {
+      if (y > this.canvas.height && Math.random() > 0.99) {
         this.drops[i] = 0;
       }
-      this.drops[i]++;
+      this.drops[i] += 0.4;  // slower fall speed
     }
   }
 
   start() {
-    const animate = () => {
-      this.draw();
+    let lastTime = 0;
+    const animate = (time) => {
+      if (time - lastTime > 50) {  // ~20fps for slower feel
+        this.draw();
+        lastTime = time;
+      }
       requestAnimationFrame(animate);
     };
-    animate();
+    animate(0);
   }
 }
 

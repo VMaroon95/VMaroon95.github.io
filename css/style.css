@@ -107,52 +107,40 @@ body::after {
 .hero-glitch { opacity: 0; margin: 20px 0; }
 
 .hero-name {
-  font-size: 4rem;
+  font-size: 5rem;
   font-weight: bold;
   color: var(--green);
-  text-shadow: 0 0 20px var(--green), 0 0 40px var(--green-dark);
   opacity: 0;
-  transition: opacity 0.5s;
-  letter-spacing: 8px;
+  transition: opacity 0.8s;
+  letter-spacing: 18px;
+  text-transform: uppercase;
   position: relative;
+  /* Matrix movie title style */
+  text-shadow:
+    0 0 10px var(--green),
+    0 0 20px var(--green),
+    0 0 40px var(--green),
+    0 0 80px rgba(0, 255, 65, 0.4),
+    0 0 120px rgba(0, 255, 65, 0.2);
+  animation: title-glow 3s ease-in-out infinite alternate;
 }
 
-/* Glitch effect on name */
-.hero-name::before,
-.hero-name::after {
-  content: attr(data-text);
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  opacity: 0;
-}
-.glitch-active .hero-name::before {
-  animation: glitch-1 2s infinite linear alternate-reverse;
-  color: var(--red);
-  opacity: 0.5;
-  clip-path: inset(20% 0 40% 0);
-}
-.glitch-active .hero-name::after {
-  animation: glitch-2 3s infinite linear alternate-reverse;
-  color: var(--blue);
-  opacity: 0.5;
-  clip-path: inset(60% 0 10% 0);
-}
-
-@keyframes glitch-1 {
-  0% { transform: translate(0); }
-  20% { transform: translate(-3px, 2px); }
-  40% { transform: translate(3px, -2px); }
-  60% { transform: translate(-2px, -1px); }
-  80% { transform: translate(2px, 1px); }
-  100% { transform: translate(0); }
-}
-@keyframes glitch-2 {
-  0% { transform: translate(0); }
-  25% { transform: translate(2px, -3px); }
-  50% { transform: translate(-3px, 2px); }
-  75% { transform: translate(3px, 1px); }
-  100% { transform: translate(0); }
+@keyframes title-glow {
+  0% {
+    text-shadow:
+      0 0 10px var(--green),
+      0 0 20px var(--green),
+      0 0 40px var(--green),
+      0 0 80px rgba(0, 255, 65, 0.4);
+  }
+  100% {
+    text-shadow:
+      0 0 15px var(--green),
+      0 0 30px var(--green),
+      0 0 60px var(--green),
+      0 0 100px rgba(0, 255, 65, 0.5),
+      0 0 150px rgba(0, 255, 65, 0.3);
+  }
 }
 
 .hero-subtitle {
@@ -662,7 +650,7 @@ body::after {
   }
   .nav-links.open { display: flex; }
   
-  .hero-name { font-size: 2rem; letter-spacing: 4px; }
+  .hero-name { font-size: 2.2rem; letter-spacing: 8px; }
   .hero-line { font-size: 1rem; }
   .hero-subtitle { font-size: 0.75rem; }
   .hero-stats { flex-wrap: wrap; gap: 20px; }
