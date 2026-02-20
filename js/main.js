@@ -55,9 +55,17 @@ async function heroSequence() {
   const subtitle = document.querySelector('.hero-subtitle');
   subtitle.style.opacity = '1';
 
-  await new Promise(r => setTimeout(r, 500));
+  await new Promise(r => setTimeout(r, 300));
+  const tagline = document.querySelector('.hero-tagline');
+  if (tagline) tagline.style.opacity = '1';
+
+  await new Promise(r => setTimeout(r, 400));
   const pills = document.querySelector('.pill-buttons');
   pills.style.opacity = '1';
+
+  await new Promise(r => setTimeout(r, 300));
+  const stats = document.querySelector('.hero-stats');
+  if (stats) stats.style.opacity = '1';
 }
 
 // Scroll-triggered typing for terminal sections
