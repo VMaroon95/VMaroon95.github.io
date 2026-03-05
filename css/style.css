@@ -618,6 +618,29 @@ body::after {
 }
 .project-links a:hover { text-shadow: 0 0 10px var(--green); }
 
+.project-links { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+.review-badge {
+  font-size: 0.65rem;
+  color: #fdd663;
+  border: 1px solid #fdd66355;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.suite-label {
+  grid-column: 1 / -1;
+  font-size: 0.75rem;
+  color: var(--green-dim);
+  letter-spacing: 2px;
+  margin-top: 20px;
+  margin-bottom: -5px;
+  font-family: var(--mono);
+  opacity: 0.7;
+}
+
 .classified-card { display: flex; align-items: center; justify-content: center; min-height: 200px; }
 .classified-overlay {
   text-align: center;
