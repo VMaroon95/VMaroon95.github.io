@@ -1,4 +1,5 @@
-// Matrix Digital Rain — Numbers only, uniform speed, no overlapping
+// Matrix Digital Rain — Numbers, movie-style cascading columns
+// Each column is a stream of different digits falling together
 
 class MatrixRain {
   constructor(canvas) {
@@ -6,10 +7,9 @@ class MatrixRain {
     this.ctx = canvas.getContext('2d');
     this.chars = '0123456789';
     this.fontSize = 16;
-    this.columns = 0;
-    this.drops = [];
-    this.charMap = []; // fixed char per position to prevent overlap flicker
-    this.speed = 0.4; // uniform speed for all columns
+    this.spacing = 20;
+    this.speed = 3; // pixels per frame — uniform
+    this.columns = [];
     this.resize();
     window.addEventListener('resize', () => this.resize());
   }
@@ -17,81 +17,94 @@ class MatrixRain {
   resize() {
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
-    const spacing = this.fontSize + 4; // extra gap to prevent overlap
-    this.columns = Math.floor(this.canvas.width / spacing);
-    this.spacing = spacing;
-    this.rows = Math.ceil(this.canvas.height / this.fontSize) + 5;
+    this.ctx.fillStyle = '#000';
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-    // Stagger start positions so columns don't all start together
-    this.drops = Array(this.columns).fill(0).map(() => Math.random() * -this.rows);
+    const numCols = Math.floor(this.canvas.width / this.spacing);
+    this.columns = [];
 
-    // Pre-assign a character to each column so it's consistent per drop
-    this.charMap = Array(this.columns).fill(0).map(() =>
-      this.chars[Math.floor(Math.random() * this.chars.length)]
-    );
+    for (let i = 0; i < numCols; i++) {
+      this.columns.push(this._createStream(i, true));
+    }
+  }
 
-    // Each column gets a slightly different brightness for depth
-    this.brightness = Array(this.columns).fill(0).map(() => 0.3 + Math.random() * 0.7);
+  _createStream(colIndex, initial) {
+    const trailLen = 10 + Math.floor(Math.random() * 18);
+    // Each position in the stream gets its own digit
+    const digits = [];
+    for (let j = 0; j < trailLen; j++) {
+      digits.push(this.chars[Math.floor(Math.random() * this.chars.length)]);
+    }
 
-    // Trail length per column
-    this.trailLength = Array(this.columns).fill(0).map(() => 8 + Math.floor(Math.random() * 12));
+    return {
+      x: colIndex * this.spacing + this.spacing / 2,
+      colIndex: colIndex,
+      y: initial ? Math.random() * -this.canvas.height * 1.5 : Math.random() * -300 - 100,
+      trailLen: trailLen,
+      digits: digits,
+      brightness: 0.4 + Math.random() * 0.6,
+      mutateTimer: 0,
+    };
   }
 
   draw() {
-    // Fade background
-    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.06)';
+    // Black overlay for fade effect
+    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
     this.ctx.font = `${this.fontSize}px monospace`;
     this.ctx.textAlign = 'center';
 
-    for (let i = 0; i < this.columns; i++) {
-      const x = i * this.spacing + this.spacing / 2;
-      const dropPos = Math.floor(this.drops[i]);
-      const y = dropPos * this.fontSize;
+    for (let s = 0; s < this.columns.length; s++) {
+      const stream = this.columns[s];
+      const headY = stream.y;
 
-      // Only draw if on screen
-      if (y > -this.fontSize && y < this.canvas.height + this.fontSize) {
-        // Pick a new char occasionally for variety
-        if (Math.random() > 0.92) {
-          this.charMap[i] = this.chars[Math.floor(Math.random() * this.chars.length)];
-        }
-
-        const char = this.charMap[i];
-        const b = this.brightness[i];
-
-        // Head character — bright white/green
-        this.ctx.fillStyle = `rgba(255, 255, 255, ${0.8 * b})`;
-        this.ctx.shadowColor = '#00ff41';
-        this.ctx.shadowBlur = 12;
-        this.ctx.fillText(char, x, y);
-        this.ctx.shadowBlur = 0;
-
-        // Trail characters behind the head
-        for (let t = 1; t < this.trailLength[i]; t++) {
-          const trailY = (dropPos - t) * this.fontSize;
-          if (trailY < 0) break;
-
-          const fade = 1 - (t / this.trailLength[i]);
-          const g = Math.floor(120 + fade * 135);
-          const alpha = fade * 0.6 * b;
-
-          // Each trail position gets its own stable char
-          const trailChar = this.chars[(i * 7 + t * 3) % this.chars.length];
-
-          this.ctx.fillStyle = `rgba(0, ${g}, ${Math.floor(20 + fade * 40)}, ${alpha})`;
-          this.ctx.fillText(trailChar, x, trailY);
-        }
+      // Occasionally mutate a random digit in the stream (like the movie)
+      stream.mutateTimer++;
+      if (stream.mutateTimer > 3) {
+        stream.mutateTimer = 0;
+        const idx = Math.floor(Math.random() * stream.digits.length);
+        stream.digits[idx] = this.chars[Math.floor(Math.random() * this.chars.length)];
       }
 
-      // Move down at uniform speed
-      this.drops[i] += this.speed;
+      // Draw each digit in the stream
+      for (let j = 0; j < stream.trailLen; j++) {
+        const charY = headY - j * this.fontSize;
 
-      // Reset when fully past bottom (including trail)
-      if ((dropPos - this.trailLength[i]) * this.fontSize > this.canvas.height) {
-        this.drops[i] = Math.random() * -15;
-        this.brightness[i] = 0.3 + Math.random() * 0.7;
-        this.trailLength[i] = 8 + Math.floor(Math.random() * 12);
+        // Skip if off screen
+        if (charY < -this.fontSize || charY > this.canvas.height + this.fontSize) continue;
+
+        const digit = stream.digits[j];
+        const fade = 1 - (j / stream.trailLen);
+
+        if (j === 0) {
+          // Head — bright white with green glow
+          this.ctx.fillStyle = `rgba(255, 255, 255, ${0.95 * stream.brightness})`;
+          this.ctx.shadowColor = '#00ff41';
+          this.ctx.shadowBlur = 15;
+        } else if (j === 1) {
+          // Second char — bright green
+          this.ctx.fillStyle = `rgba(100, 255, 100, ${0.9 * stream.brightness})`;
+          this.ctx.shadowColor = '#00ff41';
+          this.ctx.shadowBlur = 8;
+        } else {
+          // Trail — fading green
+          const g = Math.floor(100 + fade * 155);
+          const alpha = fade * 0.7 * stream.brightness;
+          this.ctx.fillStyle = `rgba(0, ${g}, ${Math.floor(20 + fade * 30)}, ${alpha})`;
+          this.ctx.shadowBlur = 0;
+        }
+
+        this.ctx.fillText(digit, stream.x, charY);
+        this.ctx.shadowBlur = 0;
+      }
+
+      // Move stream down
+      stream.y += this.speed;
+
+      // Reset when the entire trail is past the bottom
+      if ((stream.y - stream.trailLen * this.fontSize) > this.canvas.height) {
+        this.columns[s] = this._createStream(stream.colIndex, false);
       }
     }
   }
@@ -99,7 +112,7 @@ class MatrixRain {
   start() {
     let lastTime = 0;
     const animate = (time) => {
-      if (time - lastTime > 45) { // ~22fps
+      if (time - lastTime > 40) { // ~25fps
         this.draw();
         lastTime = time;
       }
