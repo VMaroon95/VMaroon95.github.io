@@ -2,368 +2,298 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Varun Meda — Engineer</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Varun Meda</title>
 <style>
-:root {
-  --g: #00ff41;
-  --b: #00e5ff;
-  --r: #ff2020;
-  --p: #bf00ff;
-  --dark: #060810;
-}
+@property --a { syntax:'<angle>'; initial-value:0deg; inherits:false; }
 
+:root {
+  --g:#00ff41; --b:#00e5ff; --r:#ff2020; --p:#bf00ff; --pk:#ff0080;
+  --dark:#04060e; --mid:#080d1a;
+}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
+body{background:var(--dark);color:#cce8cc;font-family:'Courier New',monospace;overflow-x:hidden}
+*{cursor:default!important}
+a,button,[onclick],.pill,.fb{cursor:pointer!important}
 
-body {
-  background: var(--dark);
-  color: #c8f0c8;
-  font-family: 'Courier New', monospace;
-  overflow-x: hidden;
-}
-
-/* ─── NO CUSTOM CURSOR ────────────────────────── */
-* { cursor: default !important; }
-a, button, [onclick], .pill, .fb { cursor: pointer !important; }
-
-/* ─── INTRO ───────────────────────────────────── */
-#intro {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-#mc { position: absolute; inset: 0; }
-
-.ic {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  pointer-events: none;
-}
+/* ── INTRO ────────────────────────────── */
+#intro{position:fixed;inset:0;z-index:1000;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#mc{position:absolute;inset:0}
+.ic{position:relative;z-index:2;text-align:center}
 
 /* Phase 1 – name */
-#pn { opacity: 0; transition: opacity 1s; pointer-events: none; }
-#pn h1 {
-  font-size: clamp(3rem, 9vw, 7rem);
-  font-weight: 900;
-  letter-spacing: 0.15em;
-  color: #fff;
-  text-shadow: 0 0 60px var(--g), 0 0 120px rgba(0,255,65,0.25);
+#pn{opacity:0;transition:opacity 1.2s;pointer-events:none}
+#pn h1{
+  font-size:clamp(4rem,11vw,9rem);font-weight:900;letter-spacing:.12em;
+  color:#fff;
+  text-shadow:0 0 80px var(--g),0 0 160px rgba(0,255,65,.3),0 0 240px rgba(0,255,65,.1);
 }
-#pn .sub {
-  font-size: clamp(0.65rem, 1.6vw, 0.9rem);
-  letter-spacing: 0.65em;
-  color: var(--g);
-  margin-top: 0.9rem;
-  opacity: 0.75;
-}
+#pn .sub{font-size:clamp(.65rem,1.5vw,.9rem);letter-spacing:.7em;color:var(--g);margin-top:1rem;opacity:.7}
 
-/* Phase 2 – pill choice */
-#pc {
-  display: none;
-  opacity: 0;
-  flex-direction: column;
-  align-items: center;
-  gap: 3rem;
-  transition: opacity 1.2s;
+/* glitch — NO clip-path so name never cuts */
+@keyframes glitch{
+  0%,82%,100%{text-shadow:0 0 80px var(--g),0 0 160px rgba(0,255,65,.3);transform:none}
+  84%{text-shadow:-6px 0 var(--pk),6px 0 var(--b);transform:skewX(-2.5deg)}
+  85%{text-shadow:6px 0 var(--pk),-6px 0 var(--b);transform:skewX(2.5deg)}
+  86%{text-shadow:0 0 80px var(--g);transform:none}
+  90%{text-shadow:-3px 0 var(--p),3px 0 var(--b);transform:skewX(-1deg)}
+  91%{text-shadow:0 0 80px var(--g);transform:none}
 }
-#pc.show { pointer-events: auto; }
+.glt{animation:glitch 5s infinite}
 
-.ct  { font-size: clamp(0.55rem, 1.1vw, 0.75rem); letter-spacing: 0.65em; color: rgba(255,255,255,0.35); text-transform: uppercase; }
-.cm  { font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 800; color: #fff; letter-spacing: 0.08em; line-height: 1.1; }
-.cm small { display: block; font-size: 0.3em; letter-spacing: 0.5em; color: rgba(255,255,255,0.25); font-weight: 400; margin-top: 0.7em; }
+/* Phase 2 – choice */
+#pc{display:none;opacity:0;flex-direction:column;align-items:center;gap:3rem;transition:opacity 1.2s}
+#pc.show{pointer-events:auto}
 
-/* ─ Pills row ─ */
-.pc-row { display: flex; align-items: stretch; }
+.ct{font-size:clamp(.55rem,1vw,.75rem);letter-spacing:.7em;color:rgba(255,255,255,.3);text-transform:uppercase}
+.cm{font-size:clamp(1.8rem,5vw,3.2rem);font-weight:800;color:#fff;letter-spacing:.06em;line-height:1.1}
+.cm small{display:block;font-size:.3em;letter-spacing:.55em;color:rgba(255,255,255,.22);font-weight:400;margin-top:.8em}
 
-.pdiv {
-  width: 1px;
-  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.12), transparent);
-  margin: 0 3vw;
-  align-self: stretch;
-}
+/* pill row */
+.pr{display:flex;align-items:stretch}
+.pdiv{width:1px;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.1),transparent);margin:0 4vw;align-self:stretch}
 
-.pill {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-  padding: 2.5rem 2.8rem;
-  border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.07);
-  cursor: pointer !important;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.45s cubic-bezier(0.2,0,0.1,1.2), border-color 0.4s, box-shadow 0.4s;
-  width: 200px;
+.pill{
+  display:flex;flex-direction:column;align-items:center;gap:1.6rem;
+  padding:2.8rem 3rem;border-radius:12px;width:210px;
+  border:1px solid rgba(255,255,255,.06);
+  cursor:pointer!important;position:relative;overflow:hidden;
+  transition:transform .45s cubic-bezier(.2,0,.1,1.2),border-color .4s,box-shadow .4s;
 }
-.pill::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 0.5s;
-  border-radius: 8px;
-}
-.pill.red::before  { background: radial-gradient(ellipse at 50% 90%, rgba(200,0,0,0.3), transparent 70%); }
-.pill.blue::before { background: radial-gradient(ellipse at 50% 90%, rgba(0,50,220,0.3), transparent 70%); }
+.pill::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .5s;border-radius:12px}
+.pill.red::before{background:radial-gradient(ellipse at 50% 100%,rgba(200,0,0,.35),transparent 65%)}
+.pill.blue::before{background:radial-gradient(ellipse at 50% 100%,rgba(0,40,220,.35),transparent 65%)}
+.pill:hover{transform:translateY(-14px) scale(1.04)}
+.pill:hover::before{opacity:1}
+.pill.red:hover{border-color:rgba(255,30,30,.55);box-shadow:0 0 90px rgba(255,0,0,.22),0 35px 90px rgba(200,0,0,.3)}
+.pill.blue:hover{border-color:rgba(30,90,255,.55);box-shadow:0 0 90px rgba(0,60,255,.22),0 35px 90px rgba(0,40,200,.3)}
 
-.pill:hover { transform: translateY(-12px) scale(1.03); }
-.pill:hover::before { opacity: 1; }
-.pill.red:hover  { border-color: rgba(255,40,40,0.55);  box-shadow: 0 0 80px rgba(255,0,0,0.2), 0 30px 80px rgba(200,0,0,0.3); }
-.pill.blue:hover { border-color: rgba(40,100,255,0.55); box-shadow: 0 0 80px rgba(0,60,255,0.2), 0 30px 80px rgba(0,40,200,0.3); }
+/* 3-D capsule */
+.pcap{width:88px;height:38px;border-radius:19px;position:relative}
+.pcap.r{
+  background:linear-gradient(155deg,#ff8888 0%,#cc0000 38%,#660000 100%);
+  box-shadow:0 0 30px rgba(255,0,0,.6),inset 0 3px 6px rgba(255,255,255,.3),inset 0 -3px 6px rgba(0,0,0,.5);
+  animation:pf 3s ease-in-out infinite;
+}
+.pcap.bl{
+  background:linear-gradient(155deg,#88aaff 0%,#0044ee 38%,#001688 100%);
+  box-shadow:0 0 30px rgba(0,80,255,.6),inset 0 3px 6px rgba(255,255,255,.3),inset 0 -3px 6px rgba(0,0,0,.5);
+  animation:pf 3s ease-in-out infinite;animation-delay:-1.5s;
+}
+.pcap::after{content:'';position:absolute;top:7px;left:10px;width:30px;height:9px;border-radius:5px;background:rgba(255,255,255,.32)}
+.pcap::before{content:'';position:absolute;top:0;left:43px;width:2px;height:100%;background:rgba(0,0,0,.35)}
+.pill:hover .pcap.r{box-shadow:0 0 70px rgba(255,0,0,1),0 0 130px rgba(255,0,0,.4),inset 0 3px 6px rgba(255,255,255,.38)}
+.pill:hover .pcap.bl{box-shadow:0 0 70px rgba(0,80,255,1),0 0 130px rgba(0,80,255,.4),inset 0 3px 6px rgba(255,255,255,.38)}
+@keyframes pf{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-13px) rotate(4deg)}}
 
-/* 3-D pill capsule */
-.pcap {
-  width: 82px;
-  height: 36px;
-  border-radius: 18px;
-  position: relative;
+.plabel{font-size:.8rem;letter-spacing:.4em;font-weight:700}
+.pill.red .plabel{color:#ff5555}
+.pill.blue .plabel{color:#5588ff}
+.pdesc{font-size:.67rem;line-height:1.8;text-align:center;color:rgba(255,255,255,.28);max-width:125px}
+
+.chint{font-size:.5rem;letter-spacing:.55em;color:rgba(255,255,255,.12);animation:blink 2.4s step-end infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* ── FLASH ────────────────────────────── */
+#flash{position:fixed;inset:0;z-index:2000;background:#fff;opacity:0;pointer-events:none;transition:opacity .25s}
+
+/* ── RGB SPLIT on red pill ────────────── */
+#rgb-split{
+  position:fixed;inset:0;z-index:1900;opacity:0;pointer-events:none;
+  mix-blend-mode:screen;display:flex;
 }
-.pcap.r {
-  background: linear-gradient(155deg, #ff7777 0%, #cc0000 40%, #770000 100%);
-  box-shadow: 0 0 28px rgba(255,0,0,0.55), inset 0 3px 5px rgba(255,255,255,0.28), inset 0 -3px 5px rgba(0,0,0,0.5);
-  animation: pfloat 3s ease-in-out infinite;
-}
-.pcap.bl {
-  background: linear-gradient(155deg, #6699ff 0%, #0044dd 40%, #001888 100%);
-  box-shadow: 0 0 28px rgba(0,80,255,0.55), inset 0 3px 5px rgba(255,255,255,0.28), inset 0 -3px 5px rgba(0,0,0,0.5);
-  animation: pfloat 3s ease-in-out infinite;
-  animation-delay: -1.5s;
-}
-/* specular highlight */
-.pcap::after {
-  content: '';
-  position: absolute;
-  top: 6px; left: 10px;
-  width: 28px; height: 8px;
-  border-radius: 4px;
-  background: rgba(255,255,255,0.32);
-}
-/* seam */
-.pcap::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 40px;
-  width: 2px; height: 100%;
-  background: rgba(0,0,0,0.35);
+.rgb-r{position:absolute;inset:0;background:rgba(255,0,0,.25);transform:translateX(-8px);animation:none}
+.rgb-b{position:absolute;inset:0;background:rgba(0,0,255,.25);transform:translateX(8px);animation:none}
+@keyframes rgbShake{
+  0%{transform:translateX(-8px)}25%{transform:translateX(8px)}50%{transform:translateX(-12px)}75%{transform:translateX(6px)}100%{transform:translateX(0)}
 }
 
-.pill:hover .pcap.r  { box-shadow: 0 0 60px rgba(255,0,0,1),   0 0 120px rgba(255,0,0,0.35), inset 0 3px 5px rgba(255,255,255,0.35); }
-.pill:hover .pcap.bl { box-shadow: 0 0 60px rgba(0,80,255,1), 0 0 120px rgba(0,80,255,0.35), inset 0 3px 5px rgba(255,255,255,0.35); }
+/* ── PORTFOLIO ────────────────────────── */
+#portfolio{opacity:0;transition:opacity 1.8s;min-height:100vh}
 
-@keyframes pfloat {
-  0%,100% { transform: translateY(0) rotate(-4deg); }
-  50%     { transform: translateY(-12px) rotate(4deg); }
+/* Floating orbs background */
+#portfolio::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60vw 50vh at 20% 20%,rgba(0,255,65,.04) 0%,transparent 70%),
+    radial-gradient(ellipse 50vw 60vh at 80% 60%,rgba(0,229,255,.04) 0%,transparent 70%),
+    radial-gradient(ellipse 40vw 40vh at 50% 90%,rgba(191,0,255,.04) 0%,transparent 70%);
+  animation:orbMove 18s ease-in-out infinite alternate;
+}
+@keyframes orbMove{
+  0%{background-position:0 0,0 0,0 0;filter:blur(0px)}
+  100%{background-position:5% 5%,-5% -5%,3% -3%;filter:blur(1px)}
 }
 
-.plabel { font-size: 0.78rem; letter-spacing: 0.38em; font-weight: 700; }
-.pill.red  .plabel { color: #ff5555; }
-.pill.blue .plabel { color: #5588ff; }
+#bgc{position:fixed;inset:0;z-index:0;opacity:.4;pointer-events:none}
+.cw{position:relative;z-index:1}
 
-.pdesc { font-size: 0.67rem; line-height: 1.75; text-align: center; color: rgba(255,255,255,0.32); max-width: 120px; }
+/* ── PROGRESS ─────────────────────────── */
+#prog{position:fixed;top:0;left:0;height:2px;width:0;background:linear-gradient(90deg,var(--g),var(--b));box-shadow:0 0 10px var(--g);z-index:300;transition:width .1s linear}
 
-.chint { font-size: 0.52rem; letter-spacing: 0.5em; color: rgba(255,255,255,0.15); animation: blink 2.2s step-end infinite; }
-@keyframes blink { 50% { opacity: 0; } }
-
-/* ─── BLUE PILL INTERSTITIAL ──────────────────── */
-#blue-msg {
-  position: fixed;
-  inset: 0;
-  z-index: 1500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #00000f;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.8s;
-  text-align: center;
+/* ── NAV ──────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:1.1rem 6vw;display:flex;justify-content:space-between;align-items:center;
+  background:rgba(4,6,14,.88);backdrop-filter:blur(24px);
+  border-bottom:1px solid rgba(0,255,65,.07);
 }
-#blue-msg p { font-size: clamp(1.2rem, 3vw, 2.2rem); color: #4488ff; line-height: 1.9; letter-spacing: 0.04em; }
-#blue-msg p span { display: block; font-size: 0.45em; letter-spacing: 0.4em; color: rgba(255,255,255,0.25); margin-top: 0.8em; }
+.nl{font-size:1.1rem;font-weight:800;letter-spacing:.22em;background:linear-gradient(90deg,var(--g),var(--b));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nlinks{display:flex;gap:2.5rem;list-style:none}
+.nlinks a{color:rgba(200,240,200,.4);text-decoration:none;font-size:.67rem;letter-spacing:.26em;transition:color .3s}
+.nlinks a:hover{color:var(--g)}
 
-/* ─── FLASH ───────────────────────────────────── */
-#flash { position: fixed; inset: 0; z-index: 2000; background: #fff; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+/* ── HERO ─────────────────────────────── */
+#hero{min-height:100vh;display:flex;align-items:center;padding:6rem 8vw 4rem;position:relative}
 
-/* ─── PORTFOLIO ───────────────────────────────── */
-#portfolio { opacity: 0; transition: opacity 1.5s; min-height: 100vh; }
-
-#bgc { position: fixed; inset: 0; z-index: 0; opacity: 0.35; pointer-events: none; }
-
-.cw { position: relative; z-index: 1; }
-
-/* ─── PROGRESS BAR ────────────────────────────── */
-#prog { position: fixed; top: 0; left: 0; height: 2px; width: 0; background: var(--g); box-shadow: 0 0 10px var(--g); z-index: 300; transition: width 0.1s linear; }
-
-/* ─── NAV ─────────────────────────────────────── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0;
-  z-index: 100;
-  padding: 1.1rem 6vw;
-  display: flex; justify-content: space-between; align-items: center;
-  background: rgba(6,8,16,0.9);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(0,255,65,0.07);
+/* animated border on hero box */
+.hi{max-width:660px}
+.htag{font-size:.6rem;letter-spacing:.6em;color:var(--g);opacity:.6;margin-bottom:2rem}
+.hname{
+  font-size:clamp(4rem,10vw,7.5rem);font-weight:900;line-height:.92;letter-spacing:-.02em;margin-bottom:1.2rem;
+  background:linear-gradient(135deg,#fff 0%,rgba(255,255,255,.9) 40%,var(--g) 70%,var(--b) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
 }
-.nl { font-size: 1.1rem; font-weight: 800; letter-spacing: 0.22em; color: var(--g); }
-.nlinks { display: flex; gap: 2.5rem; list-style: none; }
-.nlinks a { color: rgba(200,240,200,0.45); text-decoration: none; font-size: 0.68rem; letter-spacing: 0.26em; transition: color 0.3s; }
-.nlinks a:hover { color: var(--g); }
+.htitle{font-size:clamp(1rem,2.4vw,1.4rem);color:var(--b);margin-bottom:2rem;letter-spacing:.06em}
+.htitle em{color:var(--g);font-style:normal}
+.hbio{font-size:.9rem;line-height:2;color:rgba(200,240,200,.55);margin-bottom:3rem;max-width:520px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+.hbtns{display:flex;gap:1rem;flex-wrap:wrap}
 
-/* ─── HERO ────────────────────────────────────── */
-#hero { min-height: 100vh; display: flex; align-items: center; padding: 6rem 8vw 4rem; }
-.hi { max-width: 660px; }
-.htag  { font-size: 0.62rem; letter-spacing: 0.58em; color: var(--g); opacity: 0.65; margin-bottom: 1.8rem; }
-.hname { font-size: clamp(3.5rem, 9vw, 6.5rem); font-weight: 900; line-height: 0.95; color: #fff; letter-spacing: -0.02em; margin-bottom: 1.2rem; }
-.htitle { font-size: clamp(1rem, 2.4vw, 1.4rem); color: var(--b); margin-bottom: 2rem; letter-spacing: 0.06em; }
-.htitle em { color: var(--g); font-style: normal; }
-.hbio { font-size: 0.9rem; line-height: 2; color: rgba(200,240,200,0.58); margin-bottom: 3rem; max-width: 510px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
-.hbtns { display: flex; gap: 1rem; flex-wrap: wrap; }
-.bpri {
-  padding: 1rem 2.2rem; background: var(--g); color: #000;
-  font-family: 'Courier New', monospace; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.25em;
-  border: none; text-decoration: none; display: inline-block; transition: all 0.3s;
-  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+.bpri{
+  padding:1rem 2.4rem;
+  background:linear-gradient(135deg,var(--g),var(--b));color:#000;
+  font-family:'Courier New',monospace;font-size:.74rem;font-weight:800;letter-spacing:.25em;
+  border:none;text-decoration:none;display:inline-block;transition:all .3s;
+  clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));
 }
-.bpri:hover { background: #fff; box-shadow: 0 0 40px rgba(0,255,65,0.5); transform: translateY(-3px); }
-.bsec {
-  padding: 1rem 2.2rem; background: transparent; color: var(--g);
-  font-family: 'Courier New', monospace; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.25em;
-  border: 1px solid rgba(0,255,65,0.32); text-decoration: none; display: inline-block; transition: all 0.3s;
+.bpri:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 0 50px rgba(0,255,65,.4),0 0 90px rgba(0,229,255,.2)}
+.bsec{
+  padding:1rem 2.4rem;background:transparent;color:var(--b);
+  font-family:'Courier New',monospace;font-size:.74rem;font-weight:700;letter-spacing:.25em;
+  border:1px solid rgba(0,229,255,.3);text-decoration:none;display:inline-block;transition:all .3s;
 }
-.bsec:hover { border-color: var(--g); background: rgba(0,255,65,0.06); box-shadow: 0 0 25px rgba(0,255,65,0.18); }
+.bsec:hover{border-color:var(--b);background:rgba(0,229,255,.07);box-shadow:0 0 28px rgba(0,229,255,.2)}
 
-/* ─── SCROLL REVEAL ───────────────────────────── */
-.rv { opacity: 0; transform: translateY(28px); transition: opacity 0.9s, transform 0.9s; }
-.rv.on { opacity: 1; transform: none; }
-.rv.d1 { transition-delay: 0.1s; }
-.rv.d2 { transition-delay: 0.2s; }
-.rv.d3 { transition-delay: 0.3s; }
+/* ── REVEAL ───────────────────────────── */
+.rv{opacity:0;transform:translateY(30px);transition:opacity .9s,transform .9s}
+.rv.on{opacity:1;transform:none}
+.rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
 
-/* ─── SECTIONS ────────────────────────────────── */
-section { padding: 7rem 8vw; }
-.sh { margin-bottom: 3.5rem; }
-.stag  { font-size: 0.6rem; letter-spacing: 0.55em; color: var(--g); opacity: 0.6; margin-bottom: 0.7rem; }
-.stitle { font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 800; color: #fff; letter-spacing: -0.02em; }
-.stitle .ac { color: var(--g); }
+/* ── SECTION COMMON ───────────────────── */
+section{padding:7rem 8vw}
+.sh{margin-bottom:4rem}
+.stag{font-size:.58rem;letter-spacing:.6em;color:var(--g);opacity:.55;margin-bottom:.7rem}
+.stitle{font-size:clamp(2rem,4.5vw,3.2rem);font-weight:800;color:#fff;letter-spacing:-.02em}
+.stitle .ac{background:linear-gradient(90deg,var(--g),var(--b));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 
-/* ─── EXPERIENCE ──────────────────────────────── */
-#experience { background: rgba(0,0,0,0.3); }
-.eg { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1.5rem; }
-.ec {
-  padding: 2.2rem; border: 1px solid rgba(0,255,65,0.09); background: rgba(0,255,65,0.015); transition: all 0.4s; position: relative;
+/* ── EXPERIENCE ───────────────────────── */
+#experience{background:rgba(0,0,0,.25)}
+.eg{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.5rem}
+.ec{
+  padding:2.2rem;position:relative;
+  background:rgba(255,255,255,.02);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:8px;
+  transition:all .4s;
+  overflow:hidden;
 }
-.ec::after { content: ''; position: absolute; top: 0; left: 0; width: 0; height: 2px; background: var(--g); transition: width 0.5s; }
-.ec:hover::after { width: 100%; }
-.ec:hover { border-color: rgba(0,255,65,0.24); background: rgba(0,255,65,0.035); }
-.eco  { font-size: 1rem; font-weight: 700; color: var(--g); margin-bottom: 0.3rem; }
-.erol { font-size: 0.77rem; color: rgba(255,255,255,0.82); letter-spacing: 0.05em; margin-bottom: 0.25rem; }
-.edt  { font-size: 0.6rem; color: rgba(255,255,255,0.28); letter-spacing: 0.28em; margin-bottom: 1.1rem; }
-.eps  { list-style: none; }
-.eps li { font-size: 0.76rem; line-height: 1.75; color: rgba(200,240,200,0.58); font-family: -apple-system, sans-serif; padding-left: 1.1rem; position: relative; margin-bottom: 0.4rem; }
-.eps li::before { content: '›'; position: absolute; left: 0; color: var(--g); }
-
-/* ─── PROJECTS ────────────────────────────────── */
-.pg { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.5rem; }
-.pcard {
-  border: 1px solid rgba(0,229,255,0.09); padding: 1.8rem; background: rgba(0,10,22,0.6);
-  transition: all 0.4s; position: relative; overflow: hidden; transform-style: preserve-3d;
+.ec::before{
+  content:'';position:absolute;inset:-1px;border-radius:8px;
+  background:conic-gradient(from var(--a),var(--g),var(--b),var(--p),var(--g));
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  padding:1px;opacity:0;transition:opacity .5s;
+  animation:spin 4s linear infinite;
 }
-.pcard .hs { position: absolute; inset: 0; pointer-events: none; transition: background 0.07s; }
-.pcard:hover { border-color: rgba(0,229,255,0.28); box-shadow: 0 25px 70px rgba(0,0,0,0.5), 0 0 50px rgba(0,229,255,0.05); }
-.pnum  { font-size: 0.57rem; color: rgba(0,229,255,0.32); letter-spacing: 0.38em; margin-bottom: 1rem; }
-.pname { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 0.6rem; }
-.pdsc  { font-size: 0.76rem; line-height: 1.78; color: rgba(200,230,255,0.48); font-family: -apple-system, sans-serif; margin-bottom: 1.2rem; }
-.ptags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
-.ptag  { font-size: 0.57rem; letter-spacing: 0.12em; padding: 0.22rem 0.6rem; border: 1px solid rgba(0,229,255,0.16); color: rgba(0,229,255,0.52); border-radius: 2px; }
+.ec:hover::before{opacity:1}
+@keyframes spin{to{--a:360deg}}
+.ec:hover{background:rgba(0,255,65,.03);transform:translateY(-4px)}
+.eco{font-size:1rem;font-weight:700;color:var(--g);margin-bottom:.35rem}
+.erol{font-size:.77rem;color:rgba(255,255,255,.8);letter-spacing:.05em;margin-bottom:.25rem}
+.edt{font-size:.6rem;color:rgba(255,255,255,.25);letter-spacing:.28em;margin-bottom:1.1rem}
+.eps{list-style:none}
+.eps li{font-size:.76rem;line-height:1.78;color:rgba(200,240,200,.55);font-family:-apple-system,sans-serif;padding-left:1.1rem;position:relative;margin-bottom:.4rem}
+.eps li::before{content:'›';position:absolute;left:0;color:var(--g)}
 
-/* ─── FILTERS ─────────────────────────────────── */
-.fbrow { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
-.fb {
-  padding: 0.4rem 1.1rem; border: 1px solid rgba(0,229,255,0.16); background: transparent;
-  color: rgba(0,229,255,0.4); font-family: 'Courier New', monospace; font-size: 0.6rem;
-  letter-spacing: 0.24em; cursor: pointer !important; transition: all 0.3s; border-radius: 2px;
+/* ── PROJECTS ─────────────────────────── */
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.5rem}
+.pcard{
+  border:1px solid rgba(255,255,255,.06);padding:1.9rem;
+  background:rgba(255,255,255,.025);
+  backdrop-filter:blur(12px);
+  border-radius:8px;
+  transition:all .4s;position:relative;overflow:hidden;transform-style:preserve-3d;
 }
-.fb:hover,.fb.on { border-color: var(--b); color: var(--b); background: rgba(0,229,255,0.07); }
+.pcard .hs{position:absolute;inset:0;pointer-events:none;transition:background .07s;border-radius:8px}
+.pcard:hover{border-color:rgba(0,229,255,.25);background:rgba(0,229,255,.04);box-shadow:0 25px 80px rgba(0,0,0,.5),0 0 60px rgba(0,229,255,.05)}
+.pnum{font-size:.56rem;color:rgba(0,229,255,.3);letter-spacing:.4em;margin-bottom:1rem}
+.pname{font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:.6rem}
+.pdsc{font-size:.75rem;line-height:1.8;color:rgba(200,230,255,.45);font-family:-apple-system,sans-serif;margin-bottom:1.2rem}
+.ptags{display:flex;flex-wrap:wrap;gap:.35rem}
+.ptag{font-size:.56rem;letter-spacing:.12em;padding:.22rem .6rem;border:1px solid rgba(0,229,255,.15);color:rgba(0,229,255,.5);border-radius:3px}
 
-/* ─── SKILLS ──────────────────────────────────── */
-#skills { background: rgba(0,0,0,0.2); }
-.sg { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1rem; }
-.si { padding: 1.2rem; border: 1px solid rgba(0,255,65,0.07); transition: all 0.3s; }
-.si:hover { border-color: rgba(0,255,65,0.2); background: rgba(0,255,65,0.025); }
-.sn { font-size: 0.7rem; letter-spacing: 0.08em; color: rgba(255,255,255,0.72); margin-bottom: 0.7rem; display: flex; justify-content: space-between; }
-.sn span { color: var(--g); font-size: 0.6rem; }
-.sb { height: 2px; background: rgba(0,255,65,0.08); border-radius: 1px; overflow: hidden; }
-.sf { height: 100%; background: linear-gradient(90deg, var(--g), var(--b)); width: 0; transition: width 1.4s cubic-bezier(0.4,0,0.2,1); border-radius: 1px; }
+/* filters */
+.fbrow{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2.5rem}
+.fb{padding:.4rem 1.1rem;border:1px solid rgba(0,229,255,.15);background:transparent;color:rgba(0,229,255,.38);font-family:'Courier New',monospace;font-size:.6rem;letter-spacing:.24em;cursor:pointer!important;transition:all .3s;border-radius:3px}
+.fb:hover,.fb.on{border-color:var(--b);color:var(--b);background:rgba(0,229,255,.07)}
 
-/* ─── TIMELINE ────────────────────────────────── */
-.tl { position: relative; padding-left: 2.5rem; }
-.tl::before { content: ''; position: absolute; left: 3px; top: 5px; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--g), rgba(0,255,65,0.04)); }
-.ti { position: relative; padding-bottom: 2.5rem; }
-.ti::before { content: ''; position: absolute; left: -2.15rem; top: 5px; width: 8px; height: 8px; border-radius: 50%; background: var(--g); box-shadow: 0 0 12px var(--g); }
-.td  { font-size: 0.58rem; letter-spacing: 0.38em; color: rgba(0,255,65,0.48); margin-bottom: 0.3rem; }
-.ttt { font-size: 0.87rem; font-weight: 700; color: #fff; margin-bottom: 0.2rem; }
-.ts  { font-size: 0.71rem; color: rgba(200,240,200,0.38); font-family: -apple-system, sans-serif; }
+/* ── SKILLS ───────────────────────────── */
+#skills{background:rgba(0,0,0,.18)}
+.sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem}
+.si{padding:1.2rem;border:1px solid rgba(255,255,255,.05);border-radius:6px;transition:all .3s;background:rgba(255,255,255,.015)}
+.si:hover{border-color:rgba(0,255,65,.18);background:rgba(0,255,65,.025)}
+.sn{font-size:.7rem;letter-spacing:.08em;color:rgba(255,255,255,.7);margin-bottom:.7rem;display:flex;justify-content:space-between}
+.sn span{color:var(--g);font-size:.6rem}
+.sb{height:2px;background:rgba(255,255,255,.07);border-radius:1px;overflow:hidden}
+.sf{height:100%;background:linear-gradient(90deg,var(--g),var(--b));width:0;transition:width 1.5s cubic-bezier(.4,0,.2,1);border-radius:1px}
 
-/* ─── RESEARCH ────────────────────────────────── */
-.rg { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
-.rc { padding: 2.2rem; border: 1px solid rgba(191,0,255,0.11); background: rgba(35,0,55,0.15); transition: all 0.4s; }
-.rc:hover { border-color: rgba(191,0,255,0.3); box-shadow: 0 0 50px rgba(191,0,255,0.07); }
-.rtag { font-size: 0.57rem; letter-spacing: 0.38em; color: var(--p); margin-bottom: 0.8rem; }
-.rt   { font-size: 1rem; font-weight: 700; color: #fff; line-height: 1.45; margin-bottom: 0.7rem; }
-.rv2  { font-size: 0.67rem; color: rgba(191,0,255,0.52); letter-spacing: 0.1em; margin-bottom: 0.8rem; }
-.ra   { font-size: 0.75rem; line-height: 1.78; color: rgba(220,200,240,0.48); font-family: -apple-system, sans-serif; }
+/* ── TIMELINE ─────────────────────────── */
+.tl{position:relative;padding-left:2.5rem}
+.tl::before{content:'';position:absolute;left:3px;top:5px;bottom:0;width:1px;background:linear-gradient(to bottom,var(--g),rgba(0,255,65,.03))}
+.ti{position:relative;padding-bottom:2.5rem}
+.ti::before{content:'';position:absolute;left:-2.15rem;top:5px;width:8px;height:8px;border-radius:50%;background:var(--g);box-shadow:0 0 14px var(--g)}
+.td{font-size:.57rem;letter-spacing:.4em;color:rgba(0,255,65,.45);margin-bottom:.3rem}
+.ttt{font-size:.87rem;font-weight:700;color:#fff;margin-bottom:.2rem}
+.ts{font-size:.7rem;color:rgba(200,240,200,.35);font-family:-apple-system,sans-serif}
 
-/* ─── CONTACT ─────────────────────────────────── */
-#contact { text-align: center; padding: 9rem 8vw; background: rgba(0,0,0,0.4); }
-.cmsg { font-size: clamp(1.8rem, 4.5vw, 3rem); font-weight: 800; color: #fff; margin-bottom: 1.2rem; line-height: 1.25; }
-.cmsg .ac { color: var(--g); }
-.csub { font-size: 0.87rem; color: rgba(200,240,200,0.38); margin-bottom: 3rem; font-family: -apple-system, sans-serif; }
-.clinks { display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap; }
-.cl { padding: 0.9rem 2rem; border: 1px solid rgba(0,255,65,0.16); color: rgba(200,240,200,0.6); text-decoration: none; font-size: 0.7rem; letter-spacing: 0.3em; transition: all 0.3s; }
-.cl:hover { border-color: var(--g); color: var(--g); background: rgba(0,255,65,0.05); box-shadow: 0 0 25px rgba(0,255,65,0.14); }
-
-/* ─── FOOTER ──────────────────────────────────── */
-footer { padding: 2rem 8vw; text-align: center; font-size: 0.58rem; letter-spacing: 0.28em; color: rgba(200,240,200,0.16); border-top: 1px solid rgba(0,255,65,0.06); }
-
-/* ─── SCROLLBAR ───────────────────────────────── */
-::-webkit-scrollbar { width: 3px; }
-::-webkit-scrollbar-track { background: #000; }
-::-webkit-scrollbar-thumb { background: rgba(0,255,65,0.22); }
-
-/* ─── SCANLINES ───────────────────────────────── */
-body::after {
-  content: ''; position: fixed; inset: 0;
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.022) 2px, rgba(0,0,0,0.022) 4px);
-  pointer-events: none; z-index: 9999;
+/* ── RESEARCH ─────────────────────────── */
+.rg{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.rc{
+  padding:2.2rem;border:1px solid rgba(191,0,255,.1);border-radius:8px;
+  background:rgba(191,0,255,.03);backdrop-filter:blur(10px);transition:all .4s;
 }
+.rc:hover{border-color:rgba(191,0,255,.28);box-shadow:0 0 60px rgba(191,0,255,.07);transform:translateY(-3px)}
+.rtag{font-size:.56rem;letter-spacing:.4em;color:var(--p);margin-bottom:.8rem}
+.rt{font-size:1rem;font-weight:700;color:#fff;line-height:1.45;margin-bottom:.7rem}
+.rv2{font-size:.66rem;color:rgba(191,0,255,.5);letter-spacing:.1em;margin-bottom:.8rem}
+.ra{font-size:.74rem;line-height:1.8;color:rgba(220,200,240,.45);font-family:-apple-system,sans-serif}
 
-/* ─── GLITCH ──────────────────────────────────── */
-@keyframes glitch {
-  0%,88%,100% { text-shadow: 0 0 60px var(--g), 0 0 110px rgba(0,255,65,0.25); }
-  90%  { text-shadow: -5px 0 var(--r), 5px 0 #00e5ff; clip-path: inset(15% 0 55% 0); }
-  91%  { text-shadow: 5px 0 var(--r), -5px 0 #00e5ff; clip-path: inset(65% 0 8% 0); }
-  92%  { text-shadow: 0 0 60px var(--g); clip-path: none; }
-  95%  { text-shadow: -2px 0 var(--p), 2px 0 var(--b); clip-path: inset(35% 0 28% 0); }
-  96%  { text-shadow: 0 0 60px var(--g); clip-path: none; }
-}
-.glitch { animation: glitch 5s infinite; }
+/* ── CONTACT ──────────────────────────── */
+#contact{text-align:center;padding:10rem 8vw;background:rgba(0,0,0,.35)}
+.cmsg{font-size:clamp(2rem,5vw,3.5rem);font-weight:800;line-height:1.2;margin-bottom:1.2rem}
+.cmsg span{background:linear-gradient(135deg,var(--g),var(--b));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.csub{font-size:.87rem;color:rgba(200,240,200,.35);margin-bottom:3.5rem;font-family:-apple-system,sans-serif}
+.clinks{display:flex;justify-content:center;gap:1.2rem;flex-wrap:wrap}
+.cl{padding:.9rem 2.2rem;border:1px solid rgba(0,255,65,.15);color:rgba(200,240,200,.55);text-decoration:none;font-size:.7rem;letter-spacing:.32em;transition:all .3s;border-radius:4px}
+.cl:hover{border-color:var(--g);color:var(--g);background:rgba(0,255,65,.06);box-shadow:0 0 28px rgba(0,255,65,.15)}
 
-/* ─── RESPONSIVE ──────────────────────────────── */
-@media (max-width: 640px) {
-  nav { padding: 1rem 5vw; }
-  .nlinks { display: none; }
-  section { padding: 5rem 5vw; }
-  #hero { padding: 5rem 5vw 3rem; }
-  .pc-row { flex-direction: column; align-items: center; gap: 0; }
-  .pdiv { width: 60px; height: 1px; margin: 0; background: linear-gradient(to right, transparent, rgba(255,255,255,0.12), transparent); }
-  .pill { width: 175px; padding: 2rem 1.8rem; margin: 1rem 0; }
+/* ── FOOTER ───────────────────────────── */
+footer{padding:2rem 8vw;text-align:center;font-size:.56rem;letter-spacing:.3em;color:rgba(200,240,200,.14);border-top:1px solid rgba(255,255,255,.04)}
+
+/* ── SCROLLBAR ────────────────────────── */
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:#000}::-webkit-scrollbar-thumb{background:rgba(0,255,65,.2)}
+
+/* ── SCANLINES ────────────────────────── */
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.02) 2px,rgba(0,0,0,.02) 4px);pointer-events:none;z-index:9999}
+
+/* ── RESPONSIVE ───────────────────────── */
+@media(max-width:640px){
+  nav{padding:1rem 5vw}.nlinks{display:none}
+  section{padding:5rem 5vw}#hero{padding:5rem 5vw 3rem}
+  .pr{flex-direction:column;align-items:center;gap:0}
+  .pdiv{width:60px;height:1px;margin:.5rem 0;background:linear-gradient(to right,transparent,rgba(255,255,255,.1),transparent)}
+  .pill{width:180px;padding:2rem 1.8rem;margin:.5rem 0}
 }
 </style>
 </head>
@@ -371,63 +301,53 @@ body::after {
 
 <div id="prog"></div>
 
-<!-- ══════════════════════════════════════════
-   INTRO
-══════════════════════════════════════════ -->
+<!-- ════════════════════════════════════
+  INTRO
+════════════════════════════════════ -->
 <div id="intro">
   <canvas id="mc"></canvas>
-
   <div class="ic">
+
     <!-- Phase 1: name -->
     <div id="pn">
-      <h1 class="glitch">VARUN MEDA</h1>
+      <h1 class="glt">VARUN MEDA</h1>
       <p class="sub">// FULL STACK ENGINEER &nbsp;·&nbsp; AI SYSTEMS</p>
     </div>
 
     <!-- Phase 2: pill choice -->
     <div id="pc">
       <p class="ct">// THE MATRIX HAS YOU</p>
-      <p class="cm">
-        CHOOSE YOUR REALITY
-        <small>SWALLOW THE TRUTH · OR STAY IN THE SIMULATION</small>
-      </p>
+      <p class="cm">CHOOSE YOUR REALITY<small>ONE TRUTH · ONE ILLUSION</small></p>
 
-      <div class="pc-row">
+      <div class="pr">
         <div class="pill red" onclick="choosePill('red')" onmouseenter="rainReact('red')" onmouseleave="rainReact('none')">
           <div class="pcap r"></div>
           <div class="plabel">RED PILL</div>
-          <div class="pdesc">See how deep the rabbit hole goes.</div>
+          <div class="pdesc">See how deep the rabbit hole goes. Meet the engineer.</div>
         </div>
-
         <div class="pdiv"></div>
-
         <div class="pill blue" onclick="choosePill('blue')" onmouseenter="rainReact('blue')" onmouseleave="rainReact('none')">
           <div class="pcap bl"></div>
           <div class="plabel">BLUE PILL</div>
-          <div class="pdesc">The story ends. You wake up in your bed.</div>
+          <div class="pdesc">The story ends. Connect on LinkedIn.</div>
         </div>
       </div>
 
-      <p class="chint">— SELECT A PILL TO CONTINUE —</p>
+      <p class="chint">— SELECT A PILL —</p>
     </div>
   </div>
 </div>
 
-<!-- Blue pill message -->
-<div id="blue-msg">
-  <p>You chose comfort.<br><span>BUT CURIOSITY WILL BRING YOU BACK.</span></p>
-</div>
-
-<!-- White flash overlay -->
+<div id="rgb-split"><div class="rgb-r"></div><div class="rgb-b"></div></div>
 <div id="flash"></div>
 
-<!-- ══════════════════════════════════════════
-   PORTFOLIO
-══════════════════════════════════════════ -->
+<!-- ════════════════════════════════════
+  PORTFOLIO
+════════════════════════════════════ -->
 <div id="portfolio">
   <canvas id="bgc"></canvas>
-
   <div class="cw">
+
     <nav>
       <div class="nl">VM_</div>
       <ul class="nlinks">
@@ -441,27 +361,22 @@ body::after {
 
     <section id="hero">
       <div class="hi">
-        <p class="htag">// SYSTEM BREACH — ACCESSING CLASSIFIED FILES</p>
+        <p class="htag">// SYSTEM BREACH — CLASSIFIED FILES ACCESSED</p>
         <h1 class="hname">VARUN<br>MEDA</h1>
         <p class="htitle">Full Stack Engineer <em>×</em> AI Systems</p>
         <p class="hbio">Building production systems that process millions of transactions across retail, fintech, and AI. I turn complex problems into clean, scalable software — from POS integrations to ML pipelines.</p>
         <div class="hbtns">
           <a href="#projects" class="bpri">VIEW WORK</a>
-          <a href="#contact"  class="bsec">GET IN TOUCH</a>
+          <a href="#contact" class="bsec">GET IN TOUCH</a>
         </div>
       </div>
     </section>
 
     <section id="experience">
-      <div class="sh rv">
-        <p class="stag">// WORK HISTORY</p>
-        <h2 class="stitle">Where I've <span class="ac">Built</span></h2>
-      </div>
+      <div class="sh rv"><p class="stag">// WORK HISTORY</p><h2 class="stitle">Where I've <span class="ac">Built</span></h2></div>
       <div class="eg">
         <div class="ec rv d1">
-          <div class="eco">EASY BACK OFFICE</div>
-          <div class="erol">Founder &amp; Lead Engineer</div>
-          <div class="edt">2023 — PRESENT</div>
+          <div class="eco">EASY BACK OFFICE</div><div class="erol">Founder &amp; Lead Engineer</div><div class="edt">2023 — PRESENT</div>
           <ul class="eps">
             <li>POS integration platform syncing 5 stores in real-time</li>
             <li>AI invoice OCR &amp; nightly shift summaries via Claude API</li>
@@ -470,19 +385,15 @@ body::after {
           </ul>
         </div>
         <div class="ec rv d2">
-          <div class="eco">CT LOTTERY DISPLAY</div>
-          <div class="erol">Software Engineer</div>
-          <div class="edt">2022 — PRESENT</div>
+          <div class="eco">CT LOTTERY DISPLAY</div><div class="erol">Software Engineer</div><div class="edt">2022 — PRESENT</div>
           <ul class="eps">
             <li>Live jackpot display across 100+ CT retail locations</li>
-            <li>Real-time data pipeline with sub-second latency</li>
+            <li>Real-time pipeline with sub-second latency</li>
             <li>Serverless architecture on Vercel + Supabase</li>
           </ul>
         </div>
         <div class="ec rv d3">
-          <div class="eco">ML RESEARCH</div>
-          <div class="erol">Research Engineer</div>
-          <div class="edt">2021 — 2023</div>
+          <div class="eco">ML RESEARCH</div><div class="erol">Research Engineer</div><div class="edt">2021 — 2023</div>
           <ul class="eps">
             <li>2 published papers — NLP &amp; classification systems</li>
             <li>BERT fine-tuning, SOTA on 3 benchmark datasets</li>
@@ -493,10 +404,7 @@ body::after {
     </section>
 
     <section id="projects">
-      <div class="sh rv">
-        <p class="stag">// SELECTED WORK</p>
-        <h2 class="stitle">What I've <span class="ac">Shipped</span></h2>
-      </div>
+      <div class="sh rv"><p class="stag">// SELECTED WORK</p><h2 class="stitle">What I've <span class="ac">Shipped</span></h2></div>
       <div class="fbrow rv">
         <button class="fb on" data-f="all">ALL</button>
         <button class="fb" data-f="fullstack">FULL STACK</button>
@@ -507,18 +415,12 @@ body::after {
     </section>
 
     <section id="skills">
-      <div class="sh rv">
-        <p class="stag">// TECH STACK</p>
-        <h2 class="stitle">What I <span class="ac">Know</span></h2>
-      </div>
+      <div class="sh rv"><p class="stag">// TECH STACK</p><h2 class="stitle">What I <span class="ac">Know</span></h2></div>
       <div class="sg" id="sgrid"></div>
     </section>
 
     <section id="timeline">
-      <div class="sh rv">
-        <p class="stag">// CHRONOLOGY</p>
-        <h2 class="stitle">The <span class="ac">Path</span></h2>
-      </div>
+      <div class="sh rv"><p class="stag">// CHRONOLOGY</p><h2 class="stitle">The <span class="ac">Path</span></h2></div>
       <div class="tl rv">
         <div class="ti"><div class="td">2024</div><div class="ttt">Easy Back Office — AI Layer</div><div class="ts">Claude Vision OCR, web push, pricebook auto-sync from Passport POS</div></div>
         <div class="ti"><div class="td">2023</div><div class="ttt">Founded Easy Back Office</div><div class="ts">Multi-store POS integration SaaS for convenience retail</div></div>
@@ -529,28 +431,25 @@ body::after {
     </section>
 
     <section id="research">
-      <div class="sh rv">
-        <p class="stag">// PUBLICATIONS</p>
-        <h2 class="stitle">Academic <span class="ac">Work</span></h2>
-      </div>
+      <div class="sh rv"><p class="stag">// PUBLICATIONS</p><h2 class="stitle">Academic <span class="ac">Work</span></h2></div>
       <div class="rg">
         <div class="rc rv d1">
           <div class="rtag">// NLP · TRANSFER LEARNING</div>
           <div class="rt">Domain Adaptation for Text Classification Using Transformer-Based Transfer Learning</div>
           <div class="rv2">Peer-Reviewed Conference · 2021</div>
-          <div class="ra">Fine-tuning strategies for BERT-family models across domain shift scenarios. SOTA on benchmark datasets with limited labeled data.</div>
+          <div class="ra">Fine-tuning strategies for BERT-family models across domain shift. SOTA on benchmark datasets with minimal labeled data.</div>
         </div>
         <div class="rc rv d2">
           <div class="rtag">// ML · INFORMATION RETRIEVAL</div>
           <div class="rt">Efficient Multi-Label Classification for Large-Scale Information Retrieval</div>
           <div class="rv2">Peer-Reviewed Conference · 2022</div>
-          <div class="ra">Hierarchical attention mechanism for multi-label document classification. 40% latency reduction vs baseline at enterprise scale.</div>
+          <div class="ra">Hierarchical attention for multi-label document classification. 40% latency reduction vs baseline at enterprise scale.</div>
         </div>
       </div>
     </section>
 
     <section id="contact">
-      <p class="cmsg rv">Ready to build<br>something <span class="ac">real?</span></p>
+      <p class="cmsg rv">Ready to build<br><span>something real?</span></p>
       <p class="csub rv">Open to senior engineering roles and consulting.</p>
       <div class="clinks rv">
         <a href="mailto:vmaroon95@gmail.com" class="cl">EMAIL</a>
@@ -565,291 +464,205 @@ body::after {
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/build/three.min.js"></script>
 <script>
-/* ═══════════════════════════════
-   DATA
-═══════════════════════════════ */
-const PROJECTS = [
-  { n:'01', name:'Easy Back Office',        desc:'Full-stack POS integration platform. Real-time multi-store fuel & transaction sync, AI invoice OCR, web push notifications, lottery P&L engine.',  tags:['Next.js','Supabase','Claude API','TypeScript'], cat:'fullstack' },
-  { n:'02', name:'CT Lottery Display',      desc:'Live jackpot display system at 100+ CT retail locations. Real-time data pipeline, serverless edge compute, sub-second updates.',                  tags:['Next.js','Vercel','Supabase','Real-time'],      cat:'fullstack' },
-  { n:'03', name:'Lottery Reconciliation',  desc:'P&L engine for scratch ticket inventory. Break-even calc, 30-day rolling margin, top-performers leaderboard, closed-book profit tracking.',       tags:['React','TypeScript','Supabase','Analytics'],    cat:'fullstack' },
-  { n:'04', name:'Pricebook Auto-Sync',     desc:'Parses Passport POS PriceBookExport XML, deduplicates by UPC, batch-upserts into Supabase every 5 min with zero downtime.',                     tags:['PowerShell','XML','REST API','Supabase'],       cat:'tools'     },
-  { n:'05', name:'Invoice OCR Pipeline',    desc:'Drag-drop invoice photo → Claude Vision extracts vendor, date, total, line items → pre-fills the invoice form with structured JSON.',            tags:['Claude Vision','Next.js','TypeScript','AI'],    cat:'ai'        },
-  { n:'06', name:'AI Shift Summary',        desc:'Nightly cron aggregates POS data, sends to Claude Haiku for a natural-language narrative, fires web push to all subscribed devices.',             tags:['Claude API','Cron','Push API','TypeScript'],    cat:'ai'        },
-  { n:'07', name:'Domain Adaptation NLP',   desc:'BERT fine-tuning pipeline for cross-domain text classification. State-of-the-art on 3 benchmark datasets with minimal labeled data.',            tags:['PyTorch','BERT','NLP','Python'],                cat:'ai'        },
-  { n:'08', name:'Multi-Label IR System',   desc:'Hierarchical attention model for large-scale document classification. 40% latency reduction vs baseline at enterprise scale.',                   tags:['PyTorch','Attention','IR','Python'],            cat:'ai'        },
+/* ═══════════ DATA ═══════════ */
+const PROJECTS=[
+  {n:'01',name:'Easy Back Office',desc:'Full-stack POS integration platform. Real-time multi-store sync, AI invoice OCR, web push, lottery P&L engine.',tags:['Next.js','Supabase','Claude API','TypeScript'],cat:'fullstack'},
+  {n:'02',name:'CT Lottery Display',desc:'Live jackpot display at 100+ CT locations. Real-time serverless pipeline, sub-second jackpot updates.',tags:['Next.js','Vercel','Supabase','Edge'],cat:'fullstack'},
+  {n:'03',name:'Lottery Reconciliation',desc:'P&L engine for scratch ticket inventory. Break-even calc, 30-day rolling margin, top-performers leaderboard.',tags:['React','TypeScript','Supabase','Analytics'],cat:'fullstack'},
+  {n:'04',name:'Pricebook Auto-Sync',desc:'Parses Passport POS XML, deduplicates by UPC, batch-upserts into Supabase every 5 min — zero downtime.',tags:['PowerShell','XML','REST','Supabase'],cat:'tools'},
+  {n:'05',name:'Invoice OCR Pipeline',desc:'Drag-drop invoice → Claude Vision extracts vendor, date, total, line items → pre-fills form with structured JSON.',tags:['Claude Vision','Next.js','TypeScript','AI'],cat:'ai'},
+  {n:'06',name:'AI Shift Summary',desc:'Nightly cron aggregates POS data, Claude Haiku writes a narrative, fires web push to all subscribed devices.',tags:['Claude API','Cron','Push API','TypeScript'],cat:'ai'},
+  {n:'07',name:'Domain Adaptation NLP',desc:'BERT fine-tuning for cross-domain text classification. State-of-the-art on 3 benchmarks with minimal labels.',tags:['PyTorch','BERT','NLP','Python'],cat:'ai'},
+  {n:'08',name:'Multi-Label IR System',desc:'Hierarchical attention for large-scale document classification. 40% latency drop vs baseline.',tags:['PyTorch','Attention','IR','Python'],cat:'ai'},
+];
+const SKILLS=[
+  {n:'TypeScript / JavaScript',p:95},{n:'React / Next.js',p:93},{n:'Node.js',p:90},
+  {n:'System Design / APIs',p:91},{n:'Claude API / AI',p:89},{n:'Python',p:88},
+  {n:'PostgreSQL / Supabase',p:87},{n:'PowerShell / Windows',p:82},{n:'PyTorch / ML',p:80},{n:'Docker / DevOps',p:74},
 ];
 
-const SKILLS = [
-  { n:'TypeScript / JavaScript', p:95 },
-  { n:'React / Next.js',         p:93 },
-  { n:'Node.js',                 p:90 },
-  { n:'System Design / APIs',    p:91 },
-  { n:'Claude API / AI',         p:89 },
-  { n:'Python',                  p:88 },
-  { n:'PostgreSQL / Supabase',   p:87 },
-  { n:'PowerShell / Windows',    p:82 },
-  { n:'PyTorch / ML',            p:80 },
-  { n:'Docker / DevOps',         p:74 },
-];
+/* ═══════════ MATRIX RAIN ═══════════ */
+const mc=document.getElementById('mc'),mctx=mc.getContext('2d');
+const CHARS='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&アイウエオカキクケコサシスセソ';
+const FS=14;let cols,drops,rainMode='normal',rainSpeed=1,rainRaf;
 
-/* ═══════════════════════════════
-   MATRIX RAIN
-═══════════════════════════════ */
-const mc    = document.getElementById('mc');
-const mctx  = mc.getContext('2d');
-const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&アイウエオカキクケコサシスセソタチツナニネノ';
-const FS    = 14;
-let cols, drops, rainMode = 'normal', rainSpeed = 1, rainRaf;
+function resizeMC(){mc.width=innerWidth;mc.height=innerHeight;cols=Math.floor(mc.width/FS);drops=Array.from({length:cols},()=>Math.random()*-(mc.height/FS))}
+resizeMC();window.addEventListener('resize',resizeMC);
 
-function resizeMC() {
-  mc.width  = innerWidth;
-  mc.height = innerHeight;
-  cols  = Math.floor(mc.width / FS);
-  drops = Array.from({ length: cols }, () => Math.random() * -(mc.height / FS));
-}
-resizeMC();
-window.addEventListener('resize', resizeMC);
-
-function drawRain() {
-  const fade = rainMode === 'red'  ? 'rgba(18,0,0,0.07)'
-             : rainMode === 'blue' ? 'rgba(0,0,18,0.07)'
-             : 'rgba(0,0,0,0.06)';
-  mctx.fillStyle = fade;
-  mctx.fillRect(0, 0, mc.width, mc.height);
-  mctx.font = FS + 'px monospace';
-
-  for (let i = 0; i < drops.length; i++) {
-    const ch = CHARS[Math.floor(Math.random() * CHARS.length)];
-    const bright = Math.random() > 0.95;
-    mctx.fillStyle = rainMode === 'red'
-      ? (bright ? 'rgba(255,120,100,0.95)' : `rgba(255,30,30,${0.15 + Math.random()*0.5})`)
-      : rainMode === 'blue'
-      ? (bright ? 'rgba(130,180,255,0.95)' : `rgba(40,100,255,${0.15 + Math.random()*0.5})`)
-      : (bright ? 'rgba(255,255,255,0.9)'  : `rgba(0,255,65,${0.15 + Math.random()*0.45})`);
-    mctx.fillText(ch, i * FS, drops[i] * FS);
-    if (drops[i] * FS > mc.height && Math.random() > 0.975) drops[i] = 0;
-    drops[i] += rainSpeed;
+function drawRain(){
+  mctx.fillStyle=rainMode==='red'?'rgba(16,0,0,.07)':rainMode==='blue'?'rgba(0,0,16,.07)':'rgba(0,0,0,.06)';
+  mctx.fillRect(0,0,mc.width,mc.height);
+  mctx.font=FS+'px monospace';
+  for(let i=0;i<drops.length;i++){
+    const ch=CHARS[Math.floor(Math.random()*CHARS.length)],bright=Math.random()>.95;
+    mctx.fillStyle=rainMode==='red'
+      ?(bright?'rgba(255,130,100,.95)':`rgba(255,30,30,${.15+Math.random()*.5})`)
+      :rainMode==='blue'
+      ?(bright?'rgba(140,190,255,.95)':`rgba(40,100,255,${.15+Math.random()*.5})`)
+      :(bright?'rgba(255,255,255,.9)':`rgba(0,255,65,${.15+Math.random()*.45})`);
+    mctx.fillText(ch,i*FS,drops[i]*FS);
+    if(drops[i]*FS>mc.height&&Math.random()>.975)drops[i]=0;
+    drops[i]+=rainSpeed;
   }
-  rainRaf = requestAnimationFrame(drawRain);
+  rainRaf=requestAnimationFrame(drawRain);
 }
 drawRain();
 
-// Hovering a pill changes rain color + speed
-function rainReact(mode) {
-  rainMode  = mode;
-  rainSpeed = mode === 'red' ? 2 : mode === 'blue' ? 0.35 : 1;
-}
+function rainReact(mode){rainMode=mode;rainSpeed=mode==='red'?2.2:mode==='blue'?.3:1}
 
-/* ═══════════════════════════════
-   INTRO TIMING
-═══════════════════════════════ */
-setTimeout(() => {
-  document.getElementById('pn').style.opacity = '1';
-}, 1000);
+/* ═══════════ INTRO TIMING ═══════════ */
+setTimeout(()=>{document.getElementById('pn').style.opacity='1'},1000);
+setTimeout(()=>{
+  const pn=document.getElementById('pn'),pc=document.getElementById('pc');
+  pn.style.opacity='0';
+  setTimeout(()=>{
+    pn.style.display='none';pc.style.display='flex';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{pc.style.opacity='1';pc.classList.add('show')}));
+    rainSpeed=.5;
+  },700);
+},3600);
 
-setTimeout(() => {
-  const pn = document.getElementById('pn');
-  const pc = document.getElementById('pc');
-  pn.style.opacity = '0';
-  setTimeout(() => {
-    pn.style.display = 'none';
-    pc.style.display  = 'flex';
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      pc.style.opacity = '1';
-      pc.classList.add('show');
-    }));
-    rainSpeed = 0.5;
-  }, 700);
-}, 3600);
+/* ═══════════ PILL CHOICE ═══════════ */
+function choosePill(color){
+  document.querySelectorAll('.pill').forEach(p=>p.style.pointerEvents='none');
 
-/* ═══════════════════════════════
-   PILL CHOICE
-═══════════════════════════════ */
-function choosePill(color) {
-  document.querySelectorAll('.pill').forEach(p => p.style.pointerEvents = 'none');
-  const flash   = document.getElementById('flash');
-  const blueMsg = document.getElementById('blue-msg');
-
-  if (color === 'blue') {
-    blueMsg.style.opacity = '1';
-    setTimeout(() => {
-      blueMsg.style.opacity = '0';
-      setTimeout(() => {
-        flash.style.background = '#fff';
-        flash.style.opacity = '1';
-        setTimeout(launchPortfolio, 420);
-      }, 900);
-    }, 2200);
-  } else {
-    // Red — intensity surge then white flash
-    rainMode  = 'red';
-    rainSpeed = 3.5;
-    setTimeout(() => {
-      flash.style.background = '#fff';
-      flash.style.opacity = '1';
-      setTimeout(launchPortfolio, 440);
-    }, 320);
+  if(color==='blue'){
+    // Blue pill → LinkedIn
+    const flash=document.getElementById('flash');
+    flash.style.background='#000014';
+    flash.style.opacity='1';
+    setTimeout(()=>{ window.location.href='https://www.linkedin.com/in/varun-meda/'; },600);
+    return;
   }
+
+  // Red pill → RGB split glitch then portfolio
+  const rgb=document.getElementById('rgb-split');
+  const flash=document.getElementById('flash');
+  rainMode='red'; rainSpeed=4;
+
+  rgb.style.opacity='1';
+  rgb.querySelector('.rgb-r').style.animation='rgbShake .25s ease-in-out 3';
+  rgb.querySelector('.rgb-b').style.animation='rgbShake .25s ease-in-out 3 .05s';
+
+  setTimeout(()=>{
+    rgb.style.opacity='0';
+    flash.style.background='#fff';
+    flash.style.opacity='1';
+    setTimeout(launchPortfolio,450);
+  },800);
 }
 
-function launchPortfolio() {
+function launchPortfolio(){
   cancelAnimationFrame(rainRaf);
-  document.getElementById('intro').style.display = 'none';
-  document.getElementById('portfolio').style.opacity = '1';
-  document.getElementById('flash').style.opacity = '0';
-  initBgParticles();
-  initObserver();
-  renderProjects('all');
-  renderSkills();
-  window.addEventListener('scroll', onScroll, { passive: true });
+  document.getElementById('intro').style.display='none';
+  document.getElementById('portfolio').style.opacity='1';
+  document.getElementById('flash').style.opacity='0';
+  initBg();initObserver();renderProjects('all');renderSkills();
+  window.addEventListener('scroll',onScroll,{passive:true});
 }
 
-/* ═══════════════════════════════
-   THREE.JS BACKGROUND
-═══════════════════════════════ */
-function initBgParticles() {
-  const bgc = document.getElementById('bgc');
-  const renderer = new THREE.WebGLRenderer({ canvas: bgc, antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-  renderer.setSize(innerWidth, innerHeight);
-  renderer.setClearColor(0x000000, 0);
+/* ═══════════ THREE.JS BG ═══════════ */
+function initBg(){
+  const bgc=document.getElementById('bgc');
+  const renderer=new THREE.WebGLRenderer({canvas:bgc,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  renderer.setSize(innerWidth,innerHeight);renderer.setClearColor(0,0);
 
-  const scene  = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 1000);
-  camera.position.z = 45;
+  const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,.1,1000);
+  camera.position.z=48;
 
-  const N = 150, MAX_D = 20, MAX_L = N * 6;
-  const pp = new Float32Array(N * 3);
-  const vel = [];
-
-  for (let i = 0; i < N; i++) {
-    pp[i*3]   = (Math.random() - 0.5) * 90;
-    pp[i*3+1] = (Math.random() - 0.5) * 65;
-    pp[i*3+2] = (Math.random() - 0.5) * 45;
-    vel.push({ x: (Math.random()-.5)*.06, y: (Math.random()-.5)*.06, z: (Math.random()-.5)*.025 });
+  const N=180,MD=22,ML=N*6;
+  const pp=new Float32Array(N*3),vel=[];
+  // Mix of colors: green, cyan, purple
+  const colors=new Float32Array(N*3);
+  const palette=[[0,1,.25],[0,.9,1],[.75,0,1],[1,0,.5]];
+  for(let i=0;i<N;i++){
+    pp[i*3]=(Math.random()-.5)*100;pp[i*3+1]=(Math.random()-.5)*70;pp[i*3+2]=(Math.random()-.5)*50;
+    vel.push({x:(Math.random()-.5)*.07,y:(Math.random()-.5)*.07,z:(Math.random()-.5)*.03});
+    const c=palette[Math.floor(Math.random()*palette.length)];
+    colors[i*3]=c[0];colors[i*3+1]=c[1];colors[i*3+2]=c[2];
   }
+  const pGeo=new THREE.BufferGeometry();
+  pGeo.setAttribute('position',new THREE.BufferAttribute(pp,3));
+  pGeo.setAttribute('color',new THREE.BufferAttribute(colors,3));
+  scene.add(new THREE.Points(pGeo,new THREE.PointsMaterial({vertexColors:true,size:.45,transparent:true,opacity:.9})));
 
-  const pGeo = new THREE.BufferGeometry();
-  pGeo.setAttribute('position', new THREE.BufferAttribute(pp, 3));
-  scene.add(new THREE.Points(pGeo, new THREE.PointsMaterial({ color: 0x00ff41, size: 0.4, transparent: true, opacity: 0.85 })));
+  const lp=new Float32Array(ML*6);
+  const lGeo=new THREE.BufferGeometry();lGeo.setAttribute('position',new THREE.BufferAttribute(lp,3));
+  scene.add(new THREE.LineSegments(lGeo,new THREE.LineBasicMaterial({color:0x00ff41,transparent:true,opacity:.1})));
 
-  const lp = new Float32Array(MAX_L * 6);
-  const lGeo = new THREE.BufferGeometry();
-  lGeo.setAttribute('position', new THREE.BufferAttribute(lp, 3));
-  scene.add(new THREE.LineSegments(lGeo, new THREE.LineBasicMaterial({ color: 0x00ff41, transparent: true, opacity: 0.12 })));
+  let mx=0,my=0;
+  document.addEventListener('mousemove',e=>{mx=(e.clientX/innerWidth-.5)*.5;my=(e.clientY/innerHeight-.5)*.5});
+  window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
 
-  let mx = 0, my = 0;
-  document.addEventListener('mousemove', e => { mx = (e.clientX/innerWidth-.5)*.4; my = (e.clientY/innerHeight-.5)*.4; });
-  window.addEventListener('resize', () => {
-    camera.aspect = innerWidth / innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(innerWidth, innerHeight);
-  });
-
-  (function tick() {
+  (function tick(){
     requestAnimationFrame(tick);
-    for (let i = 0; i < N; i++) {
-      pp[i*3]   += vel[i].x; if (Math.abs(pp[i*3])   > 45) vel[i].x *= -1;
-      pp[i*3+1] += vel[i].y; if (Math.abs(pp[i*3+1]) > 32) vel[i].y *= -1;
-      pp[i*3+2] += vel[i].z; if (Math.abs(pp[i*3+2]) > 22) vel[i].z *= -1;
+    for(let i=0;i<N;i++){
+      pp[i*3]+=vel[i].x;if(Math.abs(pp[i*3])>50)vel[i].x*=-1;
+      pp[i*3+1]+=vel[i].y;if(Math.abs(pp[i*3+1])>35)vel[i].y*=-1;
+      pp[i*3+2]+=vel[i].z;if(Math.abs(pp[i*3+2])>25)vel[i].z*=-1;
     }
-    pGeo.attributes.position.needsUpdate = true;
-
-    let li = 0;
-    for (let a = 0; a < N && li < MAX_L; a++) {
-      for (let b = a+1; b < N && li < MAX_L; b++) {
-        const dx = pp[a*3]-pp[b*3], dy = pp[a*3+1]-pp[b*3+1], dz = pp[a*3+2]-pp[b*3+2];
-        if (dx*dx + dy*dy + dz*dz < MAX_D*MAX_D) {
-          lp[li*6]=pp[a*3]; lp[li*6+1]=pp[a*3+1]; lp[li*6+2]=pp[a*3+2];
-          lp[li*6+3]=pp[b*3]; lp[li*6+4]=pp[b*3+1]; lp[li*6+5]=pp[b*3+2];
-          li++;
-        }
-      }
+    pGeo.attributes.position.needsUpdate=true;
+    let li=0;
+    for(let a=0;a<N&&li<ML;a++)for(let b=a+1;b<N&&li<ML;b++){
+      const dx=pp[a*3]-pp[b*3],dy=pp[a*3+1]-pp[b*3+1],dz=pp[a*3+2]-pp[b*3+2];
+      if(dx*dx+dy*dy+dz*dz<MD*MD){lp[li*6]=pp[a*3];lp[li*6+1]=pp[a*3+1];lp[li*6+2]=pp[a*3+2];lp[li*6+3]=pp[b*3];lp[li*6+4]=pp[b*3+1];lp[li*6+5]=pp[b*3+2];li++;}
     }
-    lGeo.setDrawRange(0, li * 2);
-    lGeo.attributes.position.needsUpdate = true;
-
-    camera.position.x += (mx - camera.position.x) * 0.02;
-    camera.position.y += (-my - camera.position.y) * 0.02;
-    camera.lookAt(scene.position);
-    renderer.render(scene, camera);
+    lGeo.setDrawRange(0,li*2);lGeo.attributes.position.needsUpdate=true;
+    camera.position.x+=(mx-camera.position.x)*.02;
+    camera.position.y+=(-my-camera.position.y)*.02;
+    camera.lookAt(scene.position);renderer.render(scene,camera);
   })();
 }
 
-/* ═══════════════════════════════
-   PROJECTS
-═══════════════════════════════ */
-function renderProjects(filter) {
-  const items = filter === 'all' ? PROJECTS : PROJECTS.filter(p => p.cat === filter);
-  document.getElementById('pgrid').innerHTML = items.map(p => `
+/* ═══════════ PROJECTS ═══════════ */
+function renderProjects(filter){
+  const items=filter==='all'?PROJECTS:PROJECTS.filter(p=>p.cat===filter);
+  document.getElementById('pgrid').innerHTML=items.map(p=>`
     <div class="pcard rv" onmousemove="holo(this,event)" onmouseleave="holoOff(this)">
       <div class="hs"></div>
-      <div class="pnum">${p.n}</div>
-      <div class="pname">${p.name}</div>
+      <div class="pnum">${p.n}</div><div class="pname">${p.name}</div>
       <div class="pdsc">${p.desc}</div>
       <div class="ptags">${p.tags.map(t=>`<span class="ptag">${t}</span>`).join('')}</div>
     </div>`).join('');
-  document.getElementById('pgrid').querySelectorAll('.rv').forEach(el => obs.observe(el));
+  document.getElementById('pgrid').querySelectorAll('.rv').forEach(el=>obs.observe(el));
 }
-
-document.addEventListener('click', e => {
-  const btn = e.target.closest('.fb');
-  if (!btn) return;
-  document.querySelectorAll('.fb').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
-  renderProjects(btn.dataset.f);
+document.addEventListener('click',e=>{
+  const b=e.target.closest('.fb');if(!b)return;
+  document.querySelectorAll('.fb').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  renderProjects(b.dataset.f);
 });
-
-function holo(card, e) {
-  const r = card.getBoundingClientRect();
-  const x = (e.clientX - r.left) / r.width;
-  const y = (e.clientY - r.top)  / r.height;
-  const hue = Math.round(x * 360);
-  card.style.transform = `perspective(700px) rotateX(${(y-.5)*-14}deg) rotateY(${(x-.5)*14}deg) translateZ(8px)`;
-  card.querySelector('.hs').style.background =
-    `radial-gradient(circle at ${x*100}% ${y*100}%,hsla(${hue},100%,70%,.14) 0%,hsla(${(hue+90)%360},100%,70%,.05) 45%,transparent 70%)`;
+function holo(card,e){
+  const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height,hue=Math.round(x*360);
+  card.style.transform=`perspective(700px) rotateX(${(y-.5)*-14}deg) rotateY(${(x-.5)*14}deg) translateZ(8px)`;
+  card.querySelector('.hs').style.background=`radial-gradient(circle at ${x*100}% ${y*100}%,hsla(${hue},100%,70%,.15) 0%,hsla(${(hue+90)%360},100%,70%,.05) 45%,transparent 70%)`;
 }
-function holoOff(card) {
-  card.style.transform = '';
-  card.querySelector('.hs').style.background = '';
-}
+function holoOff(c){c.style.transform='';c.querySelector('.hs').style.background=''}
 
-/* ═══════════════════════════════
-   SKILLS
-═══════════════════════════════ */
-function renderSkills() {
-  document.getElementById('sgrid').innerHTML = SKILLS.map(s => `
-    <div class="si rv">
-      <div class="sn">${s.n}<span>${s.p}%</span></div>
-      <div class="sb"><div class="sf" data-p="${s.p}"></div></div>
-    </div>`).join('');
-  document.getElementById('sgrid').querySelectorAll('.rv').forEach(el => obs.observe(el));
+/* ═══════════ SKILLS ═══════════ */
+function renderSkills(){
+  document.getElementById('sgrid').innerHTML=SKILLS.map(s=>`
+    <div class="si rv"><div class="sn">${s.n}<span>${s.p}%</span></div>
+    <div class="sb"><div class="sf" data-p="${s.p}"></div></div></div>`).join('');
+  document.getElementById('sgrid').querySelectorAll('.rv').forEach(el=>obs.observe(el));
 }
 
-/* ═══════════════════════════════
-   INTERSECTION OBSERVER
-═══════════════════════════════ */
+/* ═══════════ OBSERVER ═══════════ */
 let obs;
-function initObserver() {
-  obs = new IntersectionObserver(entries => {
-    entries.forEach(en => {
-      if (!en.isIntersecting) return;
+function initObserver(){
+  obs=new IntersectionObserver(entries=>{
+    entries.forEach(en=>{
+      if(!en.isIntersecting)return;
       en.target.classList.add('on');
-      const sf = en.target.querySelector('.sf');
-      if (sf) sf.style.width = sf.dataset.p + '%';
+      const sf=en.target.querySelector('.sf');if(sf)sf.style.width=sf.dataset.p+'%';
       obs.unobserve(en.target);
     });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+  },{threshold:.12});
+  document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
 }
 
-/* ═══════════════════════════════
-   SCROLL PROGRESS
-═══════════════════════════════ */
-function onScroll() {
-  document.getElementById('prog').style.width =
-    (scrollY / (document.body.scrollHeight - innerHeight) * 100) + '%';
-}
+/* ═══════════ PROGRESS ═══════════ */
+function onScroll(){document.getElementById('prog').style.width=(scrollY/(document.body.scrollHeight-innerHeight)*100)+'%'}
 </script>
 </body>
 </html>
